@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="bg-white p-[14px] flex justify-between items-center font-">
+    <nav className="bg-white p-[14px] flex justify-between items-center fixed top-0 w-full">
       <Link href="/">
         <Image src={Logo} alt="Logo Ruang Publik" className="w-[105px]" />
       </Link>
