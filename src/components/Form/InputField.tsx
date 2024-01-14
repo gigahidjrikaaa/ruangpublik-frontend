@@ -7,6 +7,7 @@ interface InputProps {
   type?: string;
   value: string;
   placeholder: string;
+  error?: string;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -24,10 +25,11 @@ export const InputComponent: React.FC<InputProps> = ({
   type = "text",
   value,
   placeholder,
+  error,
   handleInputChange,
 }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-3">
       <label htmlFor={id} className="mb-1 font-semibold">
         {name}
       </label>
@@ -37,9 +39,12 @@ export const InputComponent: React.FC<InputProps> = ({
         name={name}
         value={value}
         placeholder={placeholder}
-        className="w-full h-12 px-4 mb-3 border border-neutral-300 rounded-lg focus:outline-none"
+        className={`${
+          error ? "border-red-500" : "border-neutral-300"
+        } w-full h-12 px-4 border  rounded-lg focus:outline-none `}
         onChange={handleInputChange}
       />
+      {error ? <span className="mt-1 text-red-500 text-xs">{error}</span> : null}
     </div>
   );
 };
@@ -51,11 +56,13 @@ export const InputComponentWithIcon: React.FC<InputPropsWithIcon> = ({
   value,
   icon,
   placeholder,
+  error,
   handleInputChange,
 }) => {
   const Icon = icon;
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-3">
       <label htmlFor={id} className="mb-1 font-semibold">
         {name}
       </label>
@@ -66,13 +73,16 @@ export const InputComponentWithIcon: React.FC<InputPropsWithIcon> = ({
           name={name}
           value={value}
           placeholder={placeholder}
-          className="w-full h-12 px-4 mb-3 border border-neutral-300 rounded-lg focus:outline-none"
+          className={`${
+            error ? "border-red-500" : "border-neutral-300"
+          } w-full h-12 px-4 border  rounded-lg focus:outline-none `}
           onChange={handleInputChange}
         />
         <Icon
           size="1.5rem"
           className="absolute top-0 translate-y-[50%] right-4 text-neutral-500 cursor-pointer"
         />
+        {error ? <span className="mt-1 text-red-500 text-xs">{error}</span> : null}
       </div>
     </div>
   );
@@ -85,15 +95,16 @@ export const InputPassword: React.FC<InputPropsWithToggle> = ({
   icon,
   secondaryIcon,
   placeholder,
+  error,
   handleInputChange,
 }) => {
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const Icon = icon;
   const SecondaryIcon = secondaryIcon;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-3">
       <label htmlFor={id} className="mb-1 font-semibold">
         {name}
       </label>
@@ -104,7 +115,9 @@ export const InputPassword: React.FC<InputPropsWithToggle> = ({
           name={name}
           value={value}
           placeholder={placeholder}
-          className="w-full h-12 px-4 mb-3 border border-neutral-300 rounded-lg focus:outline-none"
+          className={`${
+            error ? "border-red-500" : "border-neutral-300"
+          } w-full h-12 px-4 border  rounded-lg focus:outline-none `}
           onChange={handleInputChange}
         />
         {showPassword ? (
@@ -121,6 +134,7 @@ export const InputPassword: React.FC<InputPropsWithToggle> = ({
           />
         )}
       </div>
+      {error ? <span className="mt-1 text-red-500 text-xs">{error}</span> : null}
     </div>
   );
 };
