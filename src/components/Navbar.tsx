@@ -40,7 +40,7 @@ export default function Navbar() {
   return (
     <nav className="bg-white p-[14px] flex justify-between items-center fixed top-0 w-full z-[10]">
       <Link href="/">
-        <Image src={Logo} alt="Logo Ruang Publik" className="w-[105px]" />
+        <Image src={Logo} alt="Logo Ruang Publik" className="w-[90px] lg:w-[105px]" />
       </Link>
 
       <form className="relative hidden md:block">
