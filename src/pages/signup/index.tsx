@@ -1,10 +1,14 @@
+import BackToHome from "@/components/BackToHome";
 import { InputComponent, InputPassword } from "@/components/Form/InputField";
 import SubmitButton from "@/components/Form/SubmitButton";
+import LoadingButton from "@/components/LoadingButton";
 
+import axios from "axios";
 import Image from "next/image";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
 
 interface SignupFormInput {
   [key: string]: string;
@@ -33,6 +37,9 @@ const errorMessages: Record<string, { [key: string]: string }> = {
 };
 
 export default function SignupPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
   const [input, setInput] = useState<SignupFormInput>(initialInput);
   const [errors, setErrors] = useState<SignupErrorInput>({});
 
@@ -44,7 +51,7 @@ export default function SignupPage() {
     else setErrors((prev) => ({ ...prev, [id]: "" }));
   };
 
-  const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors: SignupErrorInput = {};
@@ -61,21 +68,48 @@ export default function SignupPage() {
       return;
     }
 
-    // TODO: change fetch api method to axios or swr
-    fetch("http://localhost:5000/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(input),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
+    setIsLoading(true);
+
+    try {
+      const res = await axios.post("http://localhost:5000/auth/signup", input);
+      if (res.status === 201) {
+        setInput(initialInput);
+        setErrors({});
+        setIsLoading(false);
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("success", "true");
+        router.push(`/signup?${params.toString()}`);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   };
 
+  const showSuccess = useMemo(() => Boolean(searchParams.get("success")), [searchParams]);
+
+  if (showSuccess) {
+    return (
+      <div className="max-w-screen min-h-[100dvh] flex flex-col items-center bg-neutral-50 pt-24 pb-10 px-5 md:px-8">
+        <BackToHome />
+        <Image src={"/ruangpublik-icon.svg"} alt="ruangpublik icon" width={127} height={47} />
+        <div className="flex flex-col items-center w-[100%] max-w-[600px] bg-white mt-20 px-12 pt-8 pb-12">
+          <h1 className="font-bold leading-[48px] tracking-[-0.96px] text-3xl">Sukses!</h1>
+          <div className="text-center text-xl mt-4 mb-7">
+            <p>Kamu telah berhasil mendaftarkan akun Anda</p>
+            <p>Mari suarakan pendapatmu sekarang! 🌟</p>
+          </div>
+          <a href="/login">
+            <SubmitButton customClass="rounded-md px-5 w-[156px]">Login Now</SubmitButton>
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-screen min-h-[100dvh] grid place-items-center bg-neutral-50 py-10 px-2 md:px-4">
+    <div className="max-w-screen min-h-[100dvh] flex flex-col items-center bg-neutral-50 pt-20 pb-10 px-5 md:px-8 md:pt-24">
+      <BackToHome />
       <div className="flex flex-col items-center w-[100%] max-w-[400px]">
         <Image src={"/ruangpublik-icon.svg"} alt="ruangpublik icon" width={127} height={47} />
         <div className="mt-6 mb-5 text-center">
@@ -131,7 +165,13 @@ export default function SignupPage() {
             error={errors.nikCode}
             handleInputChange={handleInput}
           />
-          <SubmitButton customClass="w-full mt-6 rounded-lg">Daftar</SubmitButton>
+          <SubmitButton
+            customClass="w-full mt-6 rounded-lg flex items-center justify-center gap-x-2"
+            disabled={isLoading}
+          >
+            {isLoading && <LoadingButton />}
+            Daftar
+          </SubmitButton>
         </form>
         <div className="text-center mt-9 mb-3">
           <p>

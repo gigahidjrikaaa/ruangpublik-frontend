@@ -1,10 +1,13 @@
+import BackToHome from "@/components/BackToHome";
 import { InputComponent, InputPassword } from "@/components/Form/InputField";
 import SubmitButton from "@/components/Form/SubmitButton";
+import LoadingButton from "@/components/LoadingButton";
 
+import axios from "axios";
 import Image from "next/image";
+import { useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
 
 interface LoginFormInput {
   email: string;
@@ -24,6 +27,7 @@ const initialInput: LoginFormInput = {
 export default function LoginPage() {
   const [input, setInput] = useState<LoginFormInput>(initialInput);
   const [errors, setErrors] = useState<LoginErrorInput>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -33,7 +37,7 @@ export default function LoginPage() {
     else setErrors((prev) => ({ ...prev, [id]: "" }));
   };
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!input.email) setErrors((prev) => ({ ...prev, email: "email tidak boleh kosong" }));
@@ -42,25 +46,22 @@ export default function LoginPage() {
 
     if (!input.email || !input.password) return;
 
-    // TODO: change fetch api method to axios or swr
-    fetch("http://localhost:5000/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(input),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setInput(initialInput);
-        setErrors({});
-      })
-      .catch((err) => console.error(err));
+    setIsLoading(true);
+
+    try {
+      const res = await axios.post("http://localhost:5000/auth/login", input);
+      if (res.status === 200) {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="max-w-screen min-h-[100dvh] grid place-items-center bg-neutral-50 py-10 px-2 md:px-4">
+    <div className="max-w-screen min-h-[100dvh] flex flex-col items-center bg-neutral-50 pt-20 pb-10 px-5 md:px-8 md:pt-24">
+      <BackToHome />
       <div className="flex flex-col items-center w-[100%] max-w-[400px]">
         <Image src={"/ruangpublik-icon.svg"} alt="ruangpublik icon" width={127} height={47} />
         <div className="mt-6 mb-5 text-center">
@@ -69,7 +70,6 @@ export default function LoginPage() {
             Jelajahi berbagai perspektif dalam satu platform
           </p>
         </div>
-
         {/* Login Form */}
         <form onSubmit={handleLogin} className="w-full">
           <InputComponent
@@ -91,7 +91,10 @@ export default function LoginPage() {
             error={errors.password}
             handleInputChange={handleInput}
           />
-          <SubmitButton customClass="w-full mt-6 rounded-lg">Masuk</SubmitButton>
+          <SubmitButton customClass="w-full mt-6 rounded-lg" disabled={isLoading}>
+            {isLoading && <LoadingButton />}
+            Masuk
+          </SubmitButton>
         </form>
         <div className="text-center mt-9 mb-3">
           <p>
