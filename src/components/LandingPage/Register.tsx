@@ -8,7 +8,7 @@ export default function Register() {
         Bergabunglah dan buat Indonesia menjadi lebih baik.
       </h1>
       <Link href="/register">
-        <PrimaryButton text="DAFTAR SEKARANG" onClick={() => {}} className="mt-[30px] text-[33px]" />
+        <PrimaryButton text="Daftar Sekarang!" onClick={() => {}} className="mt-[30px] text-[33px]" />
       </Link>
     </section>
   );
