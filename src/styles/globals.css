@@ -33,3 +33,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.text-shadow {
+  text-shadow: 0 0 10px rgba(0,0,0,0.9);
+}
