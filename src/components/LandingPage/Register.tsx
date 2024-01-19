@@ -7,7 +7,7 @@ export default function Register() {
       <h1 className="mt-[100px] lg:mt-[120px] px-[5%] md:px-10 text-center text-[28px] md:text-[32px] leading-[105%] font-semibold relative z-[1] text-shadow">
         Bergabunglah dan buat Indonesia menjadi lebih baik.
       </h1>
-      <Link href="/register">
+      <Link href="/signup">
         <PrimaryButton text="Daftar Sekarang!" onClick={() => {}} className="mt-[30px] text-[33px]" />
       </Link>
     </section>
