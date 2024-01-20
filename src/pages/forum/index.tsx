@@ -2,6 +2,7 @@ import Thread from "@/components/Thread";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import CreateThreadModal from "@/components/CreateThreadModal";
 
 interface MenuLinkProps {
   label: string;
@@ -29,6 +30,7 @@ const MenuLink = (props: MenuLinkProps) => {
 
 export default function Home() {
   const [activePage, setActivePage] = useState("/");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -37,6 +39,14 @@ export default function Home() {
 
   return(
     <main className="bg-neutral-200 min-h-[200vh] flex pt-[60px]">
+      {
+        isModalOpen &&
+        <CreateThreadModal
+          onConfirm={() => alert("登録しました")}
+          onCancel={() => setIsModalOpen(false)}
+        />
+      }
+
       <aside className="hidden md:flex flex-shrink-0 pt-12 px-5 bg-white min-h-screen flex-col items-start gap-2">
         <MenuLink label="Beranda" path="/" active="/" icon={<svg
           width="24"
@@ -120,11 +130,11 @@ export default function Home() {
       <section className="px-[3%] sm:px-5 lg:px-9 pt-[30px] md:pt-[40px] w-full flex flex-col gap-5">
         <div className="w-full flex gap-3 items-center bg-white p-5 min-w-[200px] text shadow-md rounded-[12px] text-neutral-900">
           <div className="size-[44px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
-          <div className="relative w-full max-w-[30ch] h-full" >
+          <button className="relative w-full max-w-[30ch] h-full" onClick={() => setIsModalOpen(true)} >
             <div
               className="outline outline-1 outline-neutral-300 w-full py-1 px-4 rounded-full text-neutral-600 h-full flex items-center transition duration-200 cursor-pointer hover:bg-neutral-200 active:bg-white select-none"
             >Suarakan pendapatmu disini...</div>
-          </div>
+          </button>
         </div>
         <Thread />
         <Thread />

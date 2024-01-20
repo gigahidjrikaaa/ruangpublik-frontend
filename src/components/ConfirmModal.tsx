@@ -17,8 +17,8 @@ export default function ConfirmModal({
 }: Props) {
   return (
     <main className="w-screen h-screen fixed top-0 bg-black bg-opacity-70 grid place-items-center z-[100]">
-      <div className="absolute w-full h-full" onClick={() => onCancel()} />
-      <section className="bg-white text-black p-5 rounded-[5px]">
+      <div className="absolute w-full h-full z-[1]" onClick={() => onCancel()} />
+      <section className="bg-white text-black p-5 rounded-[5px] relative z-[2]">
         <p className="text-center text-[18px] font-semibold">{message}</p>
         <p className="text-center text-sm text-neutral-600">
           {additionalMessage}
