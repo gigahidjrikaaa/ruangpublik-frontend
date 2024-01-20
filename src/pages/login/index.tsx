@@ -1,7 +1,7 @@
 import BackToHome from "@/components/BackToHome";
 import { InputComponent, InputPassword } from "@/components/Form/InputField";
 import SubmitButton from "@/components/Form/SubmitButton";
-import GoogleLoginButton from "@/components/GoogleLogin";
+// import GoogleLoginButton from "@/components/GoogleLogin";
 import LoadingButton from "@/components/LoadingButton";
 
 import axios from "axios";
