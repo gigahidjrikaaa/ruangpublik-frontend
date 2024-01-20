@@ -74,9 +74,11 @@ export default function Navbar() {
         </svg>
       </form>
 
-      <button className="hidden md:block rounded-full bg-blue-500 px-6 py-[6px] font-semibold">
+      <Link href="/login">
+        <button className="hidden md:block rounded-full bg-blue-500 px-6 py-[6px] font-semibold">
         Login
-      </button>
+        </button>
+      </Link>
 
       <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
         <div className="w-[30px] relative flex flex-col justify-center items-center gap-1.5 z-[10]">
@@ -143,7 +145,7 @@ export default function Navbar() {
                 height="24"
                 viewBox="0 0 24 24"
               >
-                <g clip-path="url(#clip0_132_1363)">
+                <g clipPath="url(#clip0_132_1363)">
                   <path
                     d="M12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2ZM12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V12C11.0001 12.2652 11.1055 12.5195 11.293 12.707L14.293 15.707C14.4816 15.8892 14.7342 15.99 14.9964 15.9877C15.2586 15.9854 15.5094 15.8802 15.6948 15.6948C15.8802 15.5094 15.9854 15.2586 15.9877 14.9964C15.99 14.7342 15.8892 14.4816 15.707 14.293L13 11.586V7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6Z"
                     fill="#9E9E9E"
