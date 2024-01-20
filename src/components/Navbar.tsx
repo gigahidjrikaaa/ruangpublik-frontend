@@ -38,7 +38,7 @@ export default function Navbar() {
   }, [router]);
 
   return (
-    <nav className="bg-white p-[14px] flex justify-between items-center fixed top-0 w-full z-[10]">
+    <nav className="bg-white p-[14px] flex justify-between items-center fixed top-0 w-full z-[10] shadow-md">
       <Link href="/">
         <Image src={Logo} alt="Logo Ruang Publik" className="w-[90px] lg:w-[105px]" />
       </Link>

@@ -37,3 +37,8 @@ body {
 .text-shadow {
   text-shadow: 0 0 10px rgba(0,0,0,0.9);
 }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
