@@ -23,7 +23,7 @@ export default function Home() {
           autoClose: 3000,
         });
         console.log(res.data);
-        setThreads(res.data);
+        setThreads(res.data.data);
       })
       .catch((err: unknown) => {
         if (err instanceof Error) {
@@ -69,19 +69,18 @@ export default function Home() {
             </div>
           </button>
         </div>
-        {loading ? (
+        {loading && (
           <>
             <div className="w-full h-[200px] bg-neutral-400 animate-pulse rounded-[12px]" />
             <div className="w-full h-[200px] bg-neutral-400 animate-pulse rounded-[12px]" />
             <div className="w-full h-[200px] bg-neutral-400 animate-pulse rounded-[12px]" />
-          </>
-        ) : (
-          <>
-            <Thread />
-            <Thread />
-            <Thread />
           </>
         )}
+        {
+          !loading && threads.map((thread: any) => (
+            <Thread key={thread.id} thread={thread} />
+          ))
+        }
       </Layout></>
   );
 }
