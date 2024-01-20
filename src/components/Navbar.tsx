@@ -106,7 +106,7 @@ export default function Navbar() {
       </button>
 
       <section
-        className={`w-fit fixed md:hidden top-0 right-0 min-h-screen bg-white z-[9] flex flex-col justify-start items-center pt-[100px] px-5 gap-3 transition duration-200 ${
+        className={`w-fit fixed md:hidden shadow-md top-0 right-0 min-h-screen bg-white z-[9] flex flex-col justify-start items-center pt-[100px] px-5 gap-3 transition duration-200 ${
           isMenuOpen ? "translate-x-0" : "translate-x-[100%]"
         }`}
       >
