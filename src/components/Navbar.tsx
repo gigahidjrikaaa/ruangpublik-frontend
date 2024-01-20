@@ -97,6 +97,11 @@ export default function Navbar() {
       {/* if isLoggedin, then don't show login button */}
       {isLogged ? (
         <div className="hidden md:block">
+          <Link href="/forum">
+            <button className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white mr-4">
+              Forum
+            </button>
+          </Link>
           <button className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white" onClick={LogoutHandler}>
             Logout
           </button>

@@ -26,6 +26,10 @@ const MenuLink = (props: MenuLinkProps) => {
   );
 };
 
+const RefreshHandler = () => {
+  window.location.reload();
+};
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [activePage, setActivePage] = useState("");
   const router = useRouter();
@@ -132,7 +136,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <aside className="bg-white hidden sm:block h-fit mt-[30px] md:mt-[40px] text-black flex-shrink-0 font-semibold p-6 mr-4 rounded-[12px] shadow-md sticky top-[90px] md:top-[100px]">
         <h1 className="text-[18px] mb-5">Topik-Topik</h1>
         <div className="flex flex-col gap-2">
-          <button className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2">
+          <button className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2" onClick={RefreshHandler}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -147,7 +151,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </svg>
             Pendidikan
           </button>
-          <button className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2">
+          <button className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2"  onClick={RefreshHandler}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -162,7 +166,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </svg>
             Kesehatan
           </button>
-          <button className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2">
+          <button className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2"  onClick={RefreshHandler}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

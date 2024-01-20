@@ -57,7 +57,7 @@ export default function LoginPage() {
       const res = await axios.post("http://localhost:5000/auth/login", input);
       if (res.status === 200) {
         setIsLoading(false);
-        localStorage.setItem("access_token", res.data.message)
+        localStorage.setItem("access_token", res.data.message);
         toast.update(loading, {
           render: "Login berhasil!",
           type: "success",
