@@ -32,9 +32,23 @@ const MenuLink = (props: MenuLinkProps) => {
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activePage, setActivePage] = useState("/");
+  const [isLogged, setIsLogged] = useState(false);
   const router = useRouter();
 
+  const LogoutHandler = () => {
+    localStorage.removeItem("access_token");
+    setIsLogged(false);
+    router.push("/");
+  };
+
+  const checkLogin = () => {
+    if (localStorage.getItem("access_token")) {
+      setIsLogged(true);
+    }
+  };
+
   useEffect(() => {
+    checkLogin();
     setActivePage(router.pathname);
     console.log(router.pathname == "/terbaru");
   }, [router.pathname]);
@@ -80,11 +94,27 @@ export default function Navbar() {
         </svg>
       </form>
 
-      <Link href="/login">
+      {/* if isLoggedin, then don't show login button */}
+      {isLogged ? (
+        <div className="hidden md:block">
+          <button className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white" onClick={LogoutHandler}>
+            Logout
+          </button>
+        </div>
+      ) : (
+        <Link href="/login">
+          <button className="hidden md:block rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white">
+              Login
+          </button>
+        </Link>
+      )
+      }
+
+      {/* <Link href="/login">
         <button className="hidden md:block rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white">
           Login
         </button>
-      </Link>
+      </Link> */}
 
       <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
         <div className="w-[30px] relative flex flex-col justify-center items-center gap-1.5 z-[10]">
