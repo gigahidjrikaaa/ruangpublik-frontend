@@ -35,7 +35,7 @@ export default function Thread() {
         <div>
           <iframe
             src="https://drive.google.com/file/d/1UEFKRJTcsF7Qgw2x644u0F56IzFaCidL/preview"
-            className="w-full mt-4"
+            className="w-full mt-4 max-w-[500px]"
             width="640"
             height="480"
             allow="autoplay"
