@@ -42,3 +42,9 @@ body {
 ::-webkit-scrollbar {
   width: 10px;
 }
+
+/* Toastify */
+.Toastify__toast {
+  background: #3563E9 !important;
+  color: #fff !important;
+}
