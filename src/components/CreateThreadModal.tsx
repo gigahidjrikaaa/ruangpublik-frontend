@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PrimaryButton from "./PrimaryButton";
 
 interface Props {
   onConfirm: () => void;
@@ -119,13 +120,22 @@ export default function ConfirmModal({
                     </svg>
                   </div>
                   <div>
-                    <h1 className="font-bold">Upload Dokumen</h1>
-                    <p>Pilih atau letakkan file di sini</p>
+                    <h1 className="font-bold text-center">Upload Dokumen</h1>
+                    <p className="text-center">Pilih atau letakkan file di sini</p>
                   </div>
                 </div>
               </label>
             )}
           </div>
+
+          <PrimaryButton
+            className="w-fit text-white text-[16px]"
+            onClick={() => {
+              onConfirm();
+              setFile(null);
+            }} 
+            text="Posting"
+          />
         </form>
       </section>
     </main>
