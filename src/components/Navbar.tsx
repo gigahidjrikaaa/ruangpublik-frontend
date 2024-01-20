@@ -40,7 +40,7 @@ export default function Navbar() {
   }, [router.pathname]);
 
   return (
-    <nav className="bg-white p-[14px] flex justify-between items-center fixed top-0 w-full z-[10] shadow-md">
+    <nav className="bg-white p-[14px] flex justify-between items-center fixed top-0 w-screen z-[10] shadow-md">
       <Link href="/">
         <Image
           src={Logo}

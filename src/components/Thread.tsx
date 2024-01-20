@@ -1,6 +1,6 @@
 export default function Thread() {
   return (
-    <div className="w-full bg-white p-5 min-w-[200px] min-h-[200px] text shadow-md rounded-[12px] text-neutral-900 ">
+    <div className="w-full bg-white p-5 min-w-[200px] min-h-[200px] text shadow-md rounded-[12px] text-neutral-900 max-w-[800px]">
       <section className="flex items-center gap-3 max-w-[500px]">
         <div className="size-[44px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
         <div className="flex gap-[13px] items-start">
@@ -17,7 +17,7 @@ export default function Thread() {
       </section>
 
       <section className="mt-[10px]">
-        <div className="flex items-center gap-2 max-w-[500px]">
+        <div className="flex items-center gap-2">
           <h1 className="font-semibold text-[14.5px] md:text-[18px]">
             RUU Cipta Kerja Omnibus Law
           </h1>
@@ -25,7 +25,7 @@ export default function Thread() {
             Draf
           </div>
         </div>
-        <p className="font-medium mt-[5px] text-[14px] md:text-[16px] max-w-[500px]">
+        <p className="font-medium mt-[5px] text-[14px] md:text-[16px]">
           Lorem ipsum dolor sit amet consectetur. Quis nunc lectus feugiat
           iaculis ridiculus donec cursus. Nec quam at consequat amet egestas
           <span className="text-neutral-500 cursor-pointer">
@@ -35,7 +35,7 @@ export default function Thread() {
         <div>
           <iframe
             src="https://drive.google.com/file/d/1UEFKRJTcsF7Qgw2x644u0F56IzFaCidL/preview"
-            className="w-full mt-4 max-w-[500px]"
+            className="w-full mt-4"
             width="640"
             height="480"
             allow="autoplay"

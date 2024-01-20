@@ -35,7 +35,7 @@ export default function Layout({ children } : { children: React.ReactNode }) {
   }, [router]);
 
   return(
-    <main className="bg-neutral-200 min-h-[200vh] flex pt-[60px]">
+    <main className="bg-neutral-200 min-h-[200vh] flex pt-[60px] max-w-[1500px] mx-auto">
       <aside className="hidden md:flex flex-shrink-0 pt-12 px-5 bg-white min-h-screen flex-col items-start gap-2">
         <MenuLink label="Beranda" path="/" active={activePage} icon={<svg
           width="24"
