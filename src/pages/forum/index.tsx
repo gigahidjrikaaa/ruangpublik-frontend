@@ -5,10 +5,25 @@ import Layout from "@/components/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+interface Thread {
+  createdAt: string;  
+  _id: string;        
+  parents: string[];  
+  title: string;      
+  content: string;    
+  poster: string;     
+  replies: string[];  
+  upvotes: string[];  
+  bookmarks: string[];
+  downvotes: string[];
+  __v: number;        
+}
+
+
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [threads, setThreads] = useState([]);
+  const [threads, setThreads] = useState<Thread[]>([]);
 
   useEffect(() => {
     const loading = toast.loading("Loading...");
@@ -22,7 +37,7 @@ export default function Home() {
           isLoading: false,
           autoClose: 3000,
         });
-        console.log(res.data);
+        console.log(res.data.data);
         setThreads(res.data.data);
       })
       .catch((err: unknown) => {
@@ -77,8 +92,10 @@ export default function Home() {
           </>
         )}
         {
-          !loading && threads.map((thread: any) => (
-            <Thread key={thread.id} thread={thread} />
+          !loading && threads.map((thread: Thread) => (
+            <Thread key={thread._id} poster={thread.poster} title={thread.title} 
+              content={thread.content} createdAt={thread.createdAt}
+            />
           ))
         }
       </Layout></>

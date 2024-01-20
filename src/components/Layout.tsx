@@ -116,7 +116,7 @@ export default function Layout({ children } : { children: React.ReactNode }) {
         />
       </aside>
 
-      <section className="px-[3%] sm:px-5 lg:px-9 pt-[30px] md:pt-[40px] w-full flex flex-col gap-5 max-w-[1000px]">
+      <section className="px-[3%] sm:px-5 lg:px-9 pt-[30px] md:pt-[40px] w-full flex flex-col gap-5 pb-20 max-w-[1000px]">
         {children}
       </section>
 
