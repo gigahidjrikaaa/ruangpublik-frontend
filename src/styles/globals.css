@@ -9,29 +9,16 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   scroll-behavior: smooth;
+  color: black
+}
+
+body {
+  background-color: rgb(245,245,245);
 }
 
 input::-ms-reveal,
 input::-ms-clear {
   display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
 }
 
 .text-shadow {
@@ -41,4 +28,46 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
+}
+
+/* Toastify */
+.Toastify__toast {
+  background: #3563E9 !important;
+  color: #fff !important;
+}
+
+.Toastify__toast--error .Toastify__toast-body svg {
+  fill: #ff0000 !important;
+}
+
+.Toastify__toast--error .Toastify__progress-bar {
+  background: #ff0000 !important;
+}
+
+.Toastify__toast--warning .Toastify__toast-body svg {
+  fill: #FFA500 !important;
+}
+
+.Toastify__toast--warning .Toastify__progress-bar {
+  background: #FFA500 !important;
+}
+
+.Toastify__toast--success .Toastify__toast-body svg {
+  fill: #3cdf3c !important;
+}
+
+.Toastify__toast--success .Toastify__progress-bar {
+  background: #3cdf3c !important;
+}
+
+.Toastify__toast--info .Toastify__toast-body svg {
+  fill: #ffffff !important;
+}
+
+.Toastify__toast--info .Toastify__progress-bar {
+  background: #ffffff !important;
+}
+
+.Toastify__close-button {
+  color: #fff !important;
 }

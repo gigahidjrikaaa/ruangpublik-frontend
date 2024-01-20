@@ -1,7 +1,7 @@
 export default function Thread() {
   return (
-    <div className="w-full bg-white p-5 min-w-[200px] min-h-[200px] text shadow-md rounded-[12px] text-neutral-900">
-      <section className="flex items-center gap-3">
+    <div className="w-full bg-white p-5 min-w-[200px] min-h-[200px] text shadow-md rounded-[12px] text-neutral-900 max-w-[800px]">
+      <section className="flex items-center gap-3 max-w-[500px]">
         <div className="size-[44px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
         <div className="flex gap-[13px] items-start">
           <div className="flex flex-col">
@@ -25,7 +25,7 @@ export default function Thread() {
             Draf
           </div>
         </div>
-        <p className="font-medium mt-[5px] text-[14px] md:text-[16px] max-w-[50ch]">
+        <p className="font-medium mt-[5px] text-[14px] md:text-[16px]">
           Lorem ipsum dolor sit amet consectetur. Quis nunc lectus feugiat
           iaculis ridiculus donec cursus. Nec quam at consequat amet egestas
           <span className="text-neutral-500 cursor-pointer">
@@ -43,7 +43,7 @@ export default function Thread() {
         </div>
       </section>
 
-      <section className="mt-3 flex justify-between h-[40px]">
+      <section className="mt-3 flex justify-between h-[40px] max-w-[500px]">
         <div className="flex gap-3">
           <button className="px-3 sm:px-5 py-1 sm:py-2 outline outline-1 outline-neutral-300 bg-neutral-200 rounded-full flex gap-2 items-center font-semibold text-neutral-500 hover:bg-neutral-300">
             <svg

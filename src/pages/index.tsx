@@ -3,6 +3,7 @@ import Hero from "@/components/LandingPage/Hero";
 import Intro from "@/components/LandingPage/Intro";
 import Register from "@/components/LandingPage/Register";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(true);
@@ -11,15 +12,40 @@ export default function Home() {
       <Hero />
       <Intro />
       <Register />
-      {
-        isModalOpen &&
+      {isModalOpen && (
         <ConfirmModal
           message="この内容で登録しますか？"
           additionalMessage="wibu njir"
-          onConfirm={() => alert("登録しました")}
+          onConfirm={() => {
+            toast.info("登録しました");
+            toast.warn("登録しました");
+            toast.error("登録しました");
+            toast.success("登録しました");
+            setIsModalOpen(false);
+            const loading = toast.loading("登録しました");
+            setTimeout(() => { 
+              const random = Math.random();
+              if (random > 0.5) {
+                toast.update(loading, {
+                  render: "登録に失敗しました",
+                  type: "error",
+                  isLoading: false,
+                });
+              } else {
+                toast.update(loading, {
+                  render: "登録しました",
+                  type: "success",
+                  isLoading: false,
+                });
+              }
+            }, 3000);
+            setTimeout(() => {
+              toast.dismiss(loading);
+            }, 5000);
+          }}
           onCancel={() => setIsModalOpen(false)}
         />
-      }
+      )}
     </main>
   );
 }
