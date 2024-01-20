@@ -122,7 +122,7 @@ export default function Thread(props: Thread) {
           </p>
           <div>
             <iframe
-              src="https://drive.google.com/file/d/1UEFKRJTcsF7Qgw2x644u0F56IzFaCidL/preview"
+              src="https://drive.google.com/file/d/14xc1-qGmTIExrQckNp41KyyIWOEYg1eV/preview"
               className="w-full mt-4"
               width="640"
               height="480"
