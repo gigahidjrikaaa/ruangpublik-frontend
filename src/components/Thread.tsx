@@ -25,7 +25,7 @@ export default function Thread() {
             Draf
           </div>
         </div>
-        <p className="font-medium mt-[5px] text-[14px] md:text-[16px]">
+        <p className="font-medium mt-[5px] text-[14px] md:text-[16px] max-w-[50ch]">
           Lorem ipsum dolor sit amet consectetur. Quis nunc lectus feugiat
           iaculis ridiculus donec cursus. Nec quam at consequat amet egestas
           <span className="text-neutral-500 cursor-pointer">
