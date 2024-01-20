@@ -49,7 +49,7 @@ body {
   color: #fff !important;
 }
 
-.Toastify__toast--error svg {
+.Toastify__toast--error .Toastify__toast-body svg {
   fill: #ff0000 !important;
 }
 
@@ -57,7 +57,7 @@ body {
   background: #ff0000 !important;
 }
 
-.Toastify__toast--warning svg {
+.Toastify__toast--warning .Toastify__toast-body svg {
   fill: #FFA500 !important;
 }
 
@@ -65,7 +65,7 @@ body {
   background: #FFA500 !important;
 }
 
-.Toastify__toast--success svg {
+.Toastify__toast--success .Toastify__toast-body svg {
   fill: #3cdf3c !important;
 }
 
@@ -73,10 +73,14 @@ body {
   background: #3cdf3c !important;
 }
 
-.Toastify__toast--info svg {
+.Toastify__toast--info .Toastify__toast-body svg {
   fill: #ffffff !important;
 }
 
 .Toastify__toast--info .Toastify__progress-bar {
   background: #ffffff !important;
+}
+
+.Toastify__close-button {
+  color: #fff !important;
 }
