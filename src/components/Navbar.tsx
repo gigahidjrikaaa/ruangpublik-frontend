@@ -52,7 +52,7 @@ export default function Navbar() {
       <form className="relative hidden md:block">
         <input
           type="text"
-          className="outline outline-1 outline-black w-[200px] lg:w-[430px] py-1 px-4 rounded-full text-neutral-600"
+          className="outline outline-1 outline-neutral-300 w-[200px] lg:w-[430px] py-1 px-4 rounded-full text-neutral-600"
           placeholder="Cari sesuatu di sini"
         />
         <svg
