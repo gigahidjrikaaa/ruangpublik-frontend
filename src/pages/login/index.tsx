@@ -1,6 +1,7 @@
 import BackToHome from "@/components/BackToHome";
 import { InputComponent, InputPassword } from "@/components/Form/InputField";
 import SubmitButton from "@/components/Form/SubmitButton";
+import GoogleLoginButton from "@/components/GoogleLogin";
 import LoadingButton from "@/components/LoadingButton";
 
 import axios from "axios";
@@ -8,6 +9,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
+// import { useEffect } from "react";
+// import { gapi } from "gapi-script";
 
 interface LoginFormInput {
   email: string;
@@ -110,6 +113,7 @@ export default function LoginPage() {
             <FcGoogle size="1.75rem" />
           </a>
         </div>
+        <GoogleLoginButton />
       </div>
     </div>
   );
