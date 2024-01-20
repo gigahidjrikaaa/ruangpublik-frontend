@@ -9,8 +9,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-// import { useEffect } from "react";
-// import { gapi } from "gapi-script";
 
 interface LoginFormInput {
   email: string;
@@ -74,7 +72,7 @@ export default function LoginPage() {
           </p>
         </div>
         {/* Login Form */}
-        <form onSubmit={handleLogin} className="w-full">
+        <form onSubmit={handleLogin} className="w-full text-secondary-800">
           <InputComponent
             id="email"
             type="email"
@@ -99,7 +97,7 @@ export default function LoginPage() {
             Masuk
           </SubmitButton>
         </form>
-        <div className="text-center mt-9 mb-3">
+        <div className="text-center mt-9 mb-3 text-neutral-700">
           <p>
             Belum mendaftar?
             <a href="http://localhost:3000/signup">
@@ -109,11 +107,11 @@ export default function LoginPage() {
           <p>atau masuk dengan</p>
         </div>
         <div className="bg-neutral-100 p-3 rounded-lg cursor-pointer">
-          <a href="http://localhost:5000/auth/google">
-            <FcGoogle size="1.75rem" />
+          <a href="http://localhost:5000/auth/google" className="text-secondary-800">
+            <FcGoogle size="3.75rem" />
           </a>
         </div>
-        <GoogleLoginButton />
+        {/* <GoogleLoginButton /> */}
       </div>
     </div>
   );
