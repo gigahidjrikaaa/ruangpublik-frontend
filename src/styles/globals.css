@@ -48,3 +48,35 @@ body {
   background: #3563E9 !important;
   color: #fff !important;
 }
+
+.Toastify__toast--error svg {
+  fill: #ff0000 !important;
+}
+
+.Toastify__toast--error .Toastify__progress-bar {
+  background: #ff0000 !important;
+}
+
+.Toastify__toast--warning svg {
+  fill: #FFA500 !important;
+}
+
+.Toastify__toast--warning .Toastify__progress-bar {
+  background: #FFA500 !important;
+}
+
+.Toastify__toast--success svg {
+  fill: #3cdf3c !important;
+}
+
+.Toastify__toast--success .Toastify__progress-bar {
+  background: #3cdf3c !important;
+}
+
+.Toastify__toast--info svg {
+  fill: #ffffff !important;
+}
+
+.Toastify__toast--info .Toastify__progress-bar {
+  background: #ffffff !important;
+}
