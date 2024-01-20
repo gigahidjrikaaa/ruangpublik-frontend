@@ -9,6 +9,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 interface SignupFormInput {
   [key: string]: string;
@@ -69,6 +70,7 @@ export default function SignupPage() {
     }
 
     setIsLoading(true);
+    const loading = toast.loading("Memproses pendaftaran...");
 
     try {
       const res = await axios.post("http://localhost:5000/auth/signup", input);
@@ -77,11 +79,23 @@ export default function SignupPage() {
         setErrors({});
         setIsLoading(false);
         const params = new URLSearchParams(searchParams.toString());
+        toast.update(loading, {
+          render: "Pendaftaran berhasil! Silahkan login untuk melanjutkan",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+        });
         params.set("success", "true");
         router.push(`/signup?${params.toString()}`);
       }
     } catch (error) {
       console.error(error);
+      toast.update(loading, {
+        render: "Pendaftaran gagal! Silahkan coba lagi",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
       setIsLoading(false);
     }
   };
