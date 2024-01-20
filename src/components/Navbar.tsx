@@ -81,7 +81,7 @@ export default function Navbar() {
       </form>
 
       <Link href="/login">
-        <button className="hidden md:block rounded-full bg-blue-500 px-6 py-[6px] font-semibold">
+        <button className="hidden md:block rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white">
           Login
         </button>
       </Link>
