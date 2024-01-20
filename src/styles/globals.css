@@ -27,7 +27,15 @@ input::-ms-clear {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3563E9;
 }
 
 /* Toastify */
