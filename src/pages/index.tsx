@@ -22,17 +22,25 @@ export default function Home() {
             toast.error("登録しました");
             toast.success("登録しました");
             setIsModalOpen(false);
-            toast.loading("登録しました");
+            const loading = toast.loading("登録しました");
             setTimeout(() => { 
               const random = Math.random();
               if (random > 0.5) {
-                toast.success("登録しました");
+                toast.update(loading, {
+                  render: "登録に失敗しました",
+                  type: "error",
+                  isLoading: false,
+                });
               } else {
-                toast.error("登録に失敗しました");
+                toast.update(loading, {
+                  render: "登録しました",
+                  type: "success",
+                  isLoading: false,
+                });
               }
             }, 3000);
             setTimeout(() => {
-              toast.dismiss();
+              toast.dismiss(loading);
             }, 5000);
           }}
           onCancel={() => setIsModalOpen(false)}
