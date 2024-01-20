@@ -3,7 +3,6 @@ import Hero from "@/components/LandingPage/Hero";
 import Intro from "@/components/LandingPage/Intro";
 import Register from "@/components/LandingPage/Register";
 import Footer from "@/components/LandingPage/Footer";
-import { useState } from "react";
 // import { toast } from "react-toastify";
 
 export default function Home() {
