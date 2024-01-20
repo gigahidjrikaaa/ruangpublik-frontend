@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 interface LoginFormInput {
   email: string;
@@ -48,15 +49,28 @@ export default function LoginPage() {
     if (!input.email || !input.password) return;
 
     setIsLoading(true);
+    const loading  = toast.loading("Memproses login...");
 
     try {
       const res = await axios.post("http://localhost:5000/auth/login", input);
       if (res.status === 200) {
         setIsLoading(false);
+        toast.update(loading, {
+          render: "Login berhasil!",
+          type: "success",
+          isLoading: false,
+          autoClose: 1500,
+        });
       }
     } catch (error) {
       console.error(error);
       setIsLoading(false);
+      toast.update(loading, {
+        render: "Login gagal!",
+        type: "error",
+        isLoading: false,
+        autoClose: 1500,
+      });
     }
   };
 
