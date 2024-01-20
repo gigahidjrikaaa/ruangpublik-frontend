@@ -1,19 +1,19 @@
-import ConfirmModal from "@/components/ConfirmModal";
+// import ConfirmModal from "@/components/ConfirmModal";
 import Hero from "@/components/LandingPage/Hero";
 import Intro from "@/components/LandingPage/Intro";
 import Register from "@/components/LandingPage/Register";
 import Footer from "@/components/LandingPage/Footer";
 import { useState } from "react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  // const [isModalOpen, setIsModalOpen] = useState(true);
   return (
     <main>
       <Hero />
       <Intro />
       <Register />
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <ConfirmModal
           message="この内容で登録しますか？"
           additionalMessage="wibu njir"
@@ -47,6 +47,8 @@ export default function Home() {
           onCancel={() => setIsModalOpen(false)}
         />
       )}
+      
+      )} */}
       <Footer />
     </main>
   );

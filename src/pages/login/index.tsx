@@ -1,7 +1,7 @@
 import BackToHome from "@/components/BackToHome";
 import { InputComponent, InputPassword } from "@/components/Form/InputField";
 import SubmitButton from "@/components/Form/SubmitButton";
-import GoogleLoginButton from "@/components/GoogleLogin";
+// import GoogleLoginButton from "@/components/GoogleLogin";
 import LoadingButton from "@/components/LoadingButton";
 
 import axios from "axios";
@@ -10,6 +10,7 @@ import { useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 interface LoginFormInput {
   email: string;
@@ -27,6 +28,7 @@ const initialInput: LoginFormInput = {
 };
 
 export default function LoginPage() {
+  const router = useRouter();
   const [input, setInput] = useState<LoginFormInput>(initialInput);
   const [errors, setErrors] = useState<LoginErrorInput>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -55,12 +57,14 @@ export default function LoginPage() {
       const res = await axios.post("http://localhost:5000/auth/login", input);
       if (res.status === 200) {
         setIsLoading(false);
+        localStorage.setItem("access_token", res.data.message)
         toast.update(loading, {
           render: "Login berhasil!",
           type: "success",
           isLoading: false,
           autoClose: 1500,
         });
+        router.push("/forum");
       }
     } catch (error) {
       console.error(error);
