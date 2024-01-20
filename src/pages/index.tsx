@@ -2,6 +2,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import Hero from "@/components/LandingPage/Hero";
 import Intro from "@/components/LandingPage/Intro";
 import Register from "@/components/LandingPage/Register";
+import Footer from "@/components/LandingPage/Footer";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -23,7 +24,7 @@ export default function Home() {
             toast.success("登録しました");
             setIsModalOpen(false);
             const loading = toast.loading("登録しました");
-            setTimeout(() => { 
+            setTimeout(() => {
               const random = Math.random();
               if (random > 0.5) {
                 toast.update(loading, {
@@ -46,6 +47,7 @@ export default function Home() {
           onCancel={() => setIsModalOpen(false)}
         />
       )}
+      <Footer />
     </main>
   );
 }
