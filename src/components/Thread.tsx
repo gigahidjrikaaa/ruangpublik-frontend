@@ -228,8 +228,13 @@ export default function Thread(props: Thread) {
             <form onSubmit={(e) => {
               e.preventDefault();
               const loading = toast.loading("Mengirim komentar...");
-              axios.post(process.env.NEXT_PUBLIC_API_URL + `/threads/${props._id}`, {
-                content: comment
+              console.log(process.env.NEXT_PUBLIC_API_URL + `/threads/${props._id}/reply`);
+              axios.post(process.env.NEXT_PUBLIC_API_URL + `/threads/${props._id}/reply`, {
+                content: comment,
+                Headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                },
               })
                 .then(() => {
                   toast.update(loading, {
