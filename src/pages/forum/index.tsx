@@ -95,6 +95,7 @@ export default function Home() {
           !loading && threads.map((thread: Thread) => (
             <Thread key={thread._id} _id={thread._id} poster={thread.poster} title={thread.title} 
               content={thread.content} createdAt={thread.createdAt} upvotes={thread.upvotes} downvotes={thread.downvotes}
+              bookmarks={thread.bookmarks} replies={thread.replies} parents={thread.parents}
             />
           ))
         }
