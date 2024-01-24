@@ -51,7 +51,7 @@ export default function LoginPage() {
     if (!input.email || !input.password) return;
 
     setIsLoading(true);
-    const loading  = toast.loading("Memproses login...");
+    const loading = toast.loading("Memproses login...");
 
     try {
       const res = await axios.post("http://localhost:5000/auth/login", input);
@@ -110,7 +110,10 @@ export default function LoginPage() {
             error={errors.password}
             handleInputChange={handleInput}
           />
-          <SubmitButton customClass="w-full mt-6 rounded-lg" disabled={isLoading}>
+          <SubmitButton
+            customClass="w-full mt-6 rounded-lg flex items-center justify-center gap-x-2"
+            disabled={isLoading}
+          >
             {isLoading && <LoadingButton />}
             Masuk
           </SubmitButton>
