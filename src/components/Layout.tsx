@@ -136,7 +136,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <aside className="bg-white hidden sm:block h-fit mt-[30px] md:mt-[40px] text-black flex-shrink-0 font-semibold p-6 mr-4 rounded-[12px] shadow-md sticky top-[90px] md:top-[100px]">
         <h1 className="text-[18px] mb-5">Topik-Topik</h1>
         <div className="flex flex-col gap-2">
-          <button className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2" onClick={RefreshHandler}>
+          <button
+            className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2"
+            onClick={RefreshHandler}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -151,7 +154,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </svg>
             Pendidikan
           </button>
-          <button className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2"  onClick={RefreshHandler}>
+          <button
+            className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2"
+            onClick={RefreshHandler}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -166,7 +172,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </svg>
             Kesehatan
           </button>
-          <button className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2"  onClick={RefreshHandler}>
+          <button
+            className="min-w-[100px] lg:min-w-[175px] text-left flex gap-[10px] rounded-[5px] hover:bg-neutral-100 p-2"
+            onClick={RefreshHandler}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -179,8 +188,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 fill="#3563E9"
               />
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M6 5.75C6.99456 5.75 7.94839 5.35491 8.65165 4.65165C9.35491 3.94839 9.75 2.99456 9.75 2H14.25C14.25 2.99456 14.6451 3.94839 15.3483 4.65165C16.0516 5.35491 17.0054 5.75 18 5.75V6.25C17.0054 6.25 16.0516 6.64509 15.3483 7.34835C14.6451 8.05161 14.25 9.00544 14.25 10H9.75C9.75 9.00544 9.35491 8.05161 8.65165 7.34835C7.94839 6.64509 6.99456 6.25 6 6.25V5.75ZM12 7C12.2652 7 12.5196 6.89464 12.7071 6.70711C12.8946 6.51957 13 6.26522 13 6C13 5.73478 12.8946 5.48043 12.7071 5.29289C12.5196 5.10536 12.2652 5 12 5C11.7348 5 11.4804 5.10536 11.2929 5.29289C11.1054 5.48043 11 5.73478 11 6C11 6.26522 11.1054 6.51957 11.2929 6.70711C11.4804 6.89464 11.7348 7 12 7Z"
                 fill="#3563E9"
               />

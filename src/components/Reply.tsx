@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
+import { useState } from "react";
 import PostDateFormat from "./PostDateFormat";
 
 interface Thread {
   createdAt: string;
   _id: string;
+  userId: string;
   parents: string[];
   title: string;
   content: string;
@@ -20,49 +21,21 @@ interface Thread {
 }
 
 export default function Reply(props: Thread) {
-  const [upvoted, setUpvoted] = useState(false);
-  const [downvoted, setDownvoted] = useState(false);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        if (!props._id) {
-          console.error("Invalid thread ID:", props._id);
-          return;
-        }
-
-        const threadResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}`
-        );
-
-        const threadData = threadResponse.data;
-
-        const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/users`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
-
-        const userId = userResponse.data.data.id;
-
-        setUpvoted(threadData.data.upvotes.includes(userId));
-        setDownvoted(threadData.data.downvotes.includes(userId));
-      } catch (error) {
-        console.error("Error fetching thread data", error);
-      }
-    };
-
-    fetchUserData();
-  }, [props._id]);
+  const [upvoted, setUpvoted] = useState(props.upvotes.includes(props.userId));
+  const [downvoted, setDownvoted] = useState(props.downvotes.includes(props.userId));
+  const [upvoteCount, setUpvoteCount] = useState(props.upvotes.length ?? 0);
 
   const handleUpvote = async () => {
+    setUpvoted(!upvoted);
     if (downvoted) {
       setDownvoted(false);
+      setUpvoteCount((prev) => prev + 1);
+    } else if (upvoted) {
+      setUpvoteCount((prev) => prev - 1);
+    } else {
+      setUpvoteCount((prev) => prev + 1);
     }
-    setUpvoted(!upvoted);
+
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}/vote`,
@@ -83,6 +56,7 @@ export default function Reply(props: Thread) {
   const handleDownvote = async () => {
     if (upvoted) {
       setUpvoted(false);
+      setUpvoteCount((prev) => prev - 1);
     }
     setDownvoted(!downvoted);
     try {
@@ -112,9 +86,7 @@ export default function Reply(props: Thread) {
               <div className="flex justify-between text-[14px] items-center">
                 <div className="flex gap-2 text-[14px] items-center">
                   <div className="size-[32px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
-                  <span className="text-neutral-900">
-                    {props.poster.username}
-                  </span>
+                  <span className="text-neutral-900">{props.poster.username}</span>
                   <span className="text-neutral-500 ">•</span>
                   <span className="text-neutral-500  ">
                     {<PostDateFormat tanggalPost={props.createdAt} />}
@@ -136,16 +108,18 @@ export default function Reply(props: Thread) {
                   ? "text-blue-500 outline-blue-300 bg-blue-200 hover:bg-blue-300"
                   : "text-neutral-500 hover:bg-neutral-300 outline-neutral-300 bg-neutral-200"
               } `}
-              onClick={handleUpvote}>
+              onClick={handleUpvote}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="13"
                 height="16"
                 viewBox="0 0 13 16"
-                fill={upvoted ? "#3563E9" : "#9E9E9E"}>
+                fill={upvoted ? "#3563E9" : "#9E9E9E"}
+              >
                 <path d="M8.98724 16H4.01275V7.91919H0L6.5 0L13 7.91919H8.98724V16Z" />
               </svg>
-              {props.upvotes?.length ?? 0}
+              {upvoteCount}
             </button>
             <button
               className={`px-5 py-1  outline outline-1  rounded-full flex gap-2 items-center font-semibold ${
@@ -153,13 +127,15 @@ export default function Reply(props: Thread) {
                   ? "text-red-500 outline-red-300 hover:bg-red-300 bg-red-200"
                   : "text-neutral-500 outline-neutral-300 hover:bg-neutral-300 bg-neutral-200"
               } `}
-              onClick={handleDownvote}>
+              onClick={handleDownvote}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="13"
                 height="16"
                 viewBox="0 0 13 16"
-                fill={downvoted ? "#FF0000" : "#9E9E9E"}>
+                fill={downvoted ? "#FF0000" : "#9E9E9E"}
+              >
                 <path d="M4.01276 1.67984e-07L8.98725 6.02868e-07L8.98725 8.08081L13 8.08081L6.5 16L6.92318e-07 8.08081L4.01276 8.08081L4.01276 1.67984e-07Z" />
               </svg>
             </button>
