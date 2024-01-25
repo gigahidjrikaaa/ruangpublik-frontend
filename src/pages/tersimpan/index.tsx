@@ -26,6 +26,28 @@ export default function TersimpanPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [bookmarkedThreads, setBookmarkedThreads] = useState<Thread[]>([]);
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const userResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/users`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+
+        setUserId(userResponse.data.data.id);
+      } catch (error) {
+        console.error("Error fetching thread data", error);
+      }
+    };
+
+    fetchUserId();
+  }, []);
 
   useEffect(() => {
     const loadingToast = toast.loading("Loading...");
@@ -101,6 +123,7 @@ export default function TersimpanPage() {
               _id={thread._id}
               poster={thread.poster}
               title={thread.title}
+              userId={userId}
               content={thread.content}
               createdAt={thread.createdAt}
               upvotes={thread.upvotes}
