@@ -43,7 +43,11 @@ export default function TerbaruPage() {
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
 
-        setThreads(sortedThreads);
+        const rootThreads = sortedThreads.filter(
+          (thread: Thread) => !thread.parents.length
+        );
+
+        setThreads(rootThreads);
       })
       .catch((err: unknown) => {
         if (err instanceof Error) {
