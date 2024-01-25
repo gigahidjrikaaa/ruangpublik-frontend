@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import TanggalPost from "./PostDateFormat";
 import PostDateFormat from "./PostDateFormat";
 
 interface Thread {
@@ -9,7 +8,10 @@ interface Thread {
   parents: string[];
   title: string;
   content: string;
-  poster: string;
+  poster: {
+    _id: string;
+    username: string;
+  };
   replies: string[];
   upvotes: string[];
   bookmarks: string[];
@@ -17,32 +19,9 @@ interface Thread {
   __v: number;
 }
 
-interface Reply extends Thread {
-  parent: string;
-}
-
-export default function Reply(props: Reply) {
+export default function Reply(props: Thread) {
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
-  const [replies, setReplies] = useState<Reply[]>([]);
-
-  useEffect(() => {
-    const fetchReplies = async () => {
-      try {
-        const repliesResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}/reply`
-        );
-
-        setReplies(repliesResponse.data.data);
-      } catch (error) {
-        console.error("Error fetching replies", error);
-      }
-    };
-
-    fetchReplies();
-  }, [props._id]);
-
-  console.log(replies);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -131,9 +110,11 @@ export default function Reply(props: Reply) {
           <div className="flex gap-2">
             <div className="flex flex-col gap-1">
               <div className="flex justify-between text-[14px] items-center">
-                <div className="flex gap-3 text-[14px] items-center">
+                <div className="flex gap-2 text-[14px] items-center">
                   <div className="size-[32px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
-                  <span className="text-neutral-900">{props.poster}</span>
+                  <span className="text-neutral-900">
+                    {props.poster.username}
+                  </span>
                   <span className="text-neutral-500 ">•</span>
                   <span className="text-neutral-500  ">
                     {<PostDateFormat tanggalPost={props.createdAt} />}

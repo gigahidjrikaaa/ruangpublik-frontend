@@ -10,7 +10,10 @@ interface Thread {
   parents: string[];
   title: string;
   content: string;
-  poster: string;
+  poster: {
+    _id: string;
+    username: string;
+  };
   replies: string[];
   upvotes: string[];
   bookmarks: string[];
@@ -18,9 +21,7 @@ interface Thread {
   __v: number;
 }
 
-interface Reply extends Thread {
-  parent: string;
-}
+interface Reply extends Thread {}
 
 export default function Thread(props: Thread) {
   const [showAll, setShowAll] = useState(false);
@@ -29,7 +30,7 @@ export default function Thread(props: Thread) {
   const [downvoted, setDownvoted] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [showReply, setShowReply] = useState(false);
-  const [replies, setReplies] = useState<Reply[]>([]);
+  const [replies, setReplies] = useState<Thread[]>([]);
 
   useEffect(() => {
     const fetchReplies = async () => {
@@ -133,7 +134,7 @@ export default function Thread(props: Thread) {
 
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}/bookmark`,
-        null, 
+        null,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -159,7 +160,7 @@ export default function Thread(props: Thread) {
           <div className="flex gap-[13px] items-start">
             <div className="flex flex-col">
               <h1 className="text-[14px] md:text-[16px] font-semibold tracking-[-0.32px] leading-[100%]">
-                {props.poster}
+                {props.poster.username}
               </h1>
               <h2 className="text-[14px] mt-[2px] text-neutral-500">
                 {<PostDateFormat tanggalPost={props.createdAt} />}
@@ -383,7 +384,7 @@ export default function Thread(props: Thread) {
               <Reply
                 key={reply._id}
                 _id={reply._id}
-                parent={reply.parent}
+                parents={reply.parents}
                 poster={reply.poster}
                 title={reply.title}
                 content={reply.content}
@@ -392,7 +393,6 @@ export default function Thread(props: Thread) {
                 downvotes={reply.downvotes}
                 bookmarks={reply.bookmarks}
                 replies={reply.replies}
-                parents={reply.parents}
                 __v={reply.__v}
               />
             ))}

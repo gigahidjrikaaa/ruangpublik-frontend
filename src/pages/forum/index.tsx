@@ -11,7 +11,10 @@ interface Thread {
   parents: string[];
   title: string;
   content: string;
-  poster: string;
+  poster: {
+    _id: string;
+    username: string;
+  };
   replies: string[];
   upvotes: string[];
   bookmarks: string[];
