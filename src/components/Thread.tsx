@@ -275,6 +275,7 @@ export default function Thread(props: Thread) {
                 fill={bookmarked ? "#3563E9" : "#9E9E9E"}>
                 <path d="M0.25 13.5V1.5C0.25 1.0875 0.397 0.7345 0.691 0.441C0.985 0.1475 1.338 0.0005 1.75 0H9.25C9.6625 0 10.0158 0.147 10.3098 0.441C10.6038 0.735 10.7505 1.088 10.75 1.5V13.5L5.5 11.25L0.25 13.5Z" />
               </svg>
+              {props.bookmarks?.length ?? 0}
             </button>
             <button className="px-5 py-1 sm:py-2 outline outline-1 outline-neutral-300 bg-neutral-200 rounded-full flex gap-2 items-center font-semibold text-neutral-500 hover:bg-neutral-300">
               <svg
