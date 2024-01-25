@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PrimaryButton from "./PrimaryButton";
+import axios from "axios";
 
 interface Props {
   onConfirm: () => void;
@@ -12,6 +13,44 @@ export default function ConfirmModal({
 }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const handlePostThread = async () => {
+    try {
+      // const formData = new FormData();
+      // formData.append("title", title);
+      // formData.append("content", content);
+      // console.log(formData);
+      // if (file) {
+      //   formData.append("file", file);
+      // }
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/threads`,
+        { title, content },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log("Thread posted successfully", response.data);
+        onConfirm();
+        setFile(null);
+        setTitle("");
+        setContent("");
+      } else {
+        console.error("Error while posting thread. Status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error while posting thread", error);
+    }
+  };
+
   return (
     <main className="w-screen h-screen fixed top-0 bg-black bg-opacity-70 grid place-items-center z-[100]">
       <div
@@ -21,15 +60,13 @@ export default function ConfirmModal({
       <section className="bg-white text-black p-5 pt-12 rounded-[5px] relative z-[2]">
         <button
           className="absolute top-0 right-0 mt-2 mr-5"
-          onClick={() => onCancel()}
-        >
+          onClick={() => onCancel()}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="33"
             height="33"
             viewBox="0 0 33 33"
-            fill="none"
-          >
+            fill="none">
             <g clip-path="url(#clip0_287_3422)">
               <path
                 fill-rule="evenodd"
@@ -53,6 +90,10 @@ export default function ConfirmModal({
               <input
                 className="min-w-[500px] bg-neutral-200 rounded-[8px] focus:outline-neutral-300 px-4 py-3"
                 placeholder="Masukkan Judul"
+                required
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
           </label>
@@ -60,21 +101,25 @@ export default function ConfirmModal({
           <textarea
             className="w-full bg-neutral-200 rounded-[8px] focus:outline-neutral-300 px-4 py-3 min-h-[150px] max-h-[250px]"
             placeholder="Jelaskan lebih lanjut tentang postingan anda"
+            required
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
 
           <div>
             {file ? (
               <div className="flex justify-between items-center bg-blue-100 px-4 py-2 rounded-[8px] relative text-blue-500">
                 <p className="text-[14px]">{file.name}</p>
-                <button onClick={() => 
-                  setFile(null)
-                } className="underline text-[14px]">Hapus</button>
+                <button
+                  onClick={() => setFile(null)}
+                  className="underline text-[14px]">
+                  Hapus
+                </button>
               </div>
             ) : (
               <label
                 htmlFor="dokumen"
-                className="flex items-center gap-3 cursor-pointer"
-              >
+                className="flex items-center gap-3 cursor-pointer">
                 <input
                   id="dokumen"
                   name="dokumen"
@@ -99,16 +144,14 @@ export default function ConfirmModal({
                   className={`
                 w-full h-[150px] bg-blue-100 rounded-[8px] outline-dashed outline-blue-400 text-blue-500 flex flex-col justify-center items-center
                 ${dragging && "bg-blue-200"}
-                `}
-                >
+                `}>
                   <div className={dragging ? "animate-bounce" : ""}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="35"
                       height="35"
                       viewBox="0 0 35 35"
-                      fill="none"
-                    >
+                      fill="none">
                       <path
                         d="M6.01562 30.625C5.00034 30.625 4.02664 30.2217 3.30873 29.5038C2.59082 28.7859 2.1875 27.8122 2.1875 26.7969V21.3281C2.1875 20.893 2.36035 20.4757 2.66803 20.168C2.9757 19.8604 3.393 19.6875 3.82812 19.6875C4.26325 19.6875 4.68055 19.8604 4.98822 20.168C5.2959 20.4757 5.46875 20.893 5.46875 21.3281V26.7969C5.46875 27.0988 5.71375 27.3438 6.01562 27.3438H28.9844C29.1294 27.3438 29.2685 27.2861 29.3711 27.1836C29.4736 27.081 29.5312 26.9419 29.5312 26.7969V21.3281C29.5312 20.893 29.7041 20.4757 30.0118 20.168C30.3195 19.8604 30.7368 19.6875 31.1719 19.6875C31.607 19.6875 32.0243 19.8604 32.332 20.168C32.6396 20.4757 32.8125 20.893 32.8125 21.3281V26.7969C32.8125 27.8122 32.4092 28.7859 31.6913 29.5038C30.9734 30.2217 29.9997 30.625 28.9844 30.625H6.01562Z"
                         fill="#3563E9"
@@ -121,7 +164,9 @@ export default function ConfirmModal({
                   </div>
                   <div>
                     <h1 className="font-bold text-center">Upload Dokumen</h1>
-                    <p className="text-center">Pilih atau letakkan file di sini</p>
+                    <p className="text-center">
+                      Pilih atau letakkan file di sini
+                    </p>
                   </div>
                 </div>
               </label>
@@ -130,10 +175,7 @@ export default function ConfirmModal({
 
           <PrimaryButton
             className="w-fit text-white text-[16px]"
-            onClick={() => {
-              onConfirm();
-              setFile(null);
-            }} 
+            onClick={handlePostThread}
             text="Posting"
           />
         </form>
