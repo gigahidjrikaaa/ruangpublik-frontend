@@ -133,7 +133,7 @@ export default function Thread(props: Thread) {
 
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}/bookmark`,
-        null, // No request body for bookmarking
+        null, 
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,

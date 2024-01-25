@@ -1,12 +1,23 @@
+import React, { useEffect, useState } from "react";
+
 interface TanggalPostProps {
   tanggalPost: string;
 }
 
 export default function PostDateFormat({ tanggalPost }: TanggalPostProps) {
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   const formatTanggalPost = () => {
-    const tanggalSekarang = new Date();
     const waktuPosting = new Date(tanggalPost);
-    const selisihWaktu = tanggalSekarang.getTime() - waktuPosting.getTime();
+    const selisihWaktu = currentDate.getTime() - waktuPosting.getTime();
     const detik = Math.floor(selisihWaktu / 1000);
     const menit = Math.floor(detik / 60);
     const jam = Math.floor(menit / 60);
