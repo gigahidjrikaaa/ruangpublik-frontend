@@ -17,6 +17,10 @@ interface Thread {
   __v: number;
 }
 
+interface Reply extends Thread {
+  parent: string;
+}
+
 export default function Thread(props: Thread) {
   const [showAll, setShowAll] = useState(false);
   const [comment, setComment] = useState("");
@@ -24,6 +28,23 @@ export default function Thread(props: Thread) {
   const [downvoted, setDownvoted] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [showReply, setShowReply] = useState(false);
+  const [replies, setReplies] = useState<Reply[]>([]);
+
+  useEffect(() => {
+    const fetchReplies = async () => {
+      try {
+        const repliesResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}/reply`
+        );
+
+        setReplies(repliesResponse.data.data);
+      } catch (error) {
+        console.error("Error fetching replies", error);
+      }
+    };
+
+    fetchReplies();
+  }, [props._id]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -276,7 +297,9 @@ export default function Thread(props: Thread) {
                       `/threads/${props._id}/reply`,
                     {
                       content: comment,
-                      Headers: {
+                    },
+                    {
+                      headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem(
                           "access_token"
@@ -343,7 +366,24 @@ export default function Thread(props: Thread) {
               </svg>
             </div>
           </button>
-          {showReply && <Reply />}
+          {showReply &&
+            replies.map((reply: Reply) => (
+              <Reply
+                key={reply._id}
+                _id={reply._id}
+                parent={reply.parent}
+                poster={reply.poster}
+                title={reply.title}
+                content={reply.content}
+                createdAt={reply.createdAt}
+                upvotes={reply.upvotes}
+                downvotes={reply.downvotes}
+                bookmarks={reply.bookmarks}
+                replies={reply.replies}
+                parents={reply.parents}
+                __v={reply.__v}
+              />
+            ))}
         </section>
       </div>
     </>

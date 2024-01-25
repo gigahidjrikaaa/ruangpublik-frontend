@@ -1,14 +1,102 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-export default function Reply() {
+interface Thread {
+  createdAt: string;
+  _id: string;
+  parents: string[];
+  title: string;
+  content: string;
+  poster: string;
+  replies: string[];
+  upvotes: string[];
+  bookmarks: string[];
+  downvotes: string[];
+  __v: number;
+}
+
+interface Reply extends Thread {
+  parent: string;
+}
+
+export default function Reply(props: Reply) {
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
+  const [replies, setReplies] = useState<Reply[]>([]);
+
+  useEffect(() => {
+    const fetchReplies = async () => {
+      try {
+        const repliesResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}/reply`
+        );
+
+        setReplies(repliesResponse.data.data);
+      } catch (error) {
+        console.error("Error fetching replies", error);
+      }
+    };
+
+    fetchReplies();
+  }, [props._id]);
+
+  console.log(replies);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        if (!props._id) {
+          console.error("Invalid thread ID:", props._id);
+          return;
+        }
+
+        const threadResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}`
+        );
+
+        const threadData = threadResponse.data;
+
+        const userResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/users`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+
+        const userId = userResponse.data.data.id;
+
+        setUpvoted(threadData.data.upvotes.includes(userId));
+        setDownvoted(threadData.data.downvotes.includes(userId));
+      } catch (error) {
+        console.error("Error fetching thread data", error);
+      }
+    };
+
+    fetchUserData();
+  }, [props._id]);
 
   const handleUpvote = async () => {
     if (downvoted) {
-      setDownvoted(!downvoted);
+      setDownvoted(false);
     }
     setUpvoted(!upvoted);
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}/vote`,
+        { upvote: true },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Upvote successful", response.data);
+    } catch (error) {
+      console.error("Error while upvoting", error);
+    }
   };
 
   const handleDownvote = async () => {
@@ -16,6 +104,21 @@ export default function Reply() {
       setUpvoted(false);
     }
     setDownvoted(!downvoted);
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/threads/${props._id}/vote`,
+        { upvote: false },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Downvote successful", response.data);
+    } catch (error) {
+      console.error("Error while downvoting", error);
+    }
   };
 
   return (
@@ -28,25 +131,14 @@ export default function Reply() {
               <div className="flex justify-between text-[14px] items-center">
                 <div className="flex gap-3 text-[14px] items-center">
                   <div className="size-[32px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
-                  <span className="text-neutral-900">Username</span>
+                  <span className="text-neutral-900">{props.poster}</span>
                   <span className="text-neutral-500 ">•</span>
                   <span className="text-neutral-500  ">1 hour ago</span>
-                </div>
-
-                <div className="mr-4 text-blue-500 outline-blue-300 bg-blue-200 sm:px-5 py-1 sm:py-1 outline outline-1 rounded-full flex gap-2 items-center font-semibold">
-                  Setuju
                 </div>
               </div>
 
               <div className="text-neutral-900 mt-1">
-                <span>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-                  euismod, turpis nec ultricies lobortis, diam velit viverra
-                  velit, sed ultricies diam ipsum vitae sem. Nulla facilisi.
-                  Pellentesque habitant morbi tristique senectus et netus et
-                  malesuada fames ac turpis egestas. Donec sed nunc et magna
-                  aliquet aliquet. Donec euismod, turpis nec ultricies. Lorem
-                </span>
+                <span>{props.content}</span>
               </div>
             </div>
           </div>
@@ -68,7 +160,7 @@ export default function Reply() {
                 fill={upvoted ? "#3563E9" : "#9E9E9E"}>
                 <path d="M8.98724 16H4.01275V7.91919H0L6.5 0L13 7.91919H8.98724V16Z" />
               </svg>
-              1
+              {props.upvotes?.length ?? 0}
             </button>
             <button
               className={`px-5 py-1  outline outline-1  rounded-full flex gap-2 items-center font-semibold ${
