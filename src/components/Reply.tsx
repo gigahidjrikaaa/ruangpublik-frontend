@@ -1,4 +1,23 @@
+import { useState } from "react";
+
 export default function Reply() {
+  const [upvoted, setUpvoted] = useState(false);
+  const [downvoted, setDownvoted] = useState(false);
+
+  const handleUpvote = async () => {
+    if (downvoted) {
+      setDownvoted(!downvoted);
+    }
+    setUpvoted(!upvoted);
+  };
+
+  const handleDownvote = async () => {
+    if (upvoted) {
+      setUpvoted(false);
+    }
+    setDownvoted(!downvoted);
+  };
+
   return (
     <>
       <div className="w-full h-[1px] bg-neutral-200 my-4"></div>
@@ -32,6 +51,43 @@ export default function Reply() {
             </div>
           </div>
         </div>
+        <section className="flex justify-between">
+          <div className="flex gap-3">
+            <button
+              className={`px-3 sm:px-5 py-1  outline outline-1 rounded-full flex gap-2 items-center font-semibold ${
+                upvoted
+                  ? "text-blue-500 outline-blue-300 bg-blue-200 hover:bg-blue-300"
+                  : "text-neutral-500 hover:bg-neutral-300 outline-neutral-300 bg-neutral-200"
+              } `}
+              onClick={handleUpvote}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="13"
+                height="16"
+                viewBox="0 0 13 16"
+                fill={upvoted ? "#3563E9" : "#9E9E9E"}>
+                <path d="M8.98724 16H4.01275V7.91919H0L6.5 0L13 7.91919H8.98724V16Z" />
+              </svg>
+              1
+            </button>
+            <button
+              className={`px-5 py-1  outline outline-1  rounded-full flex gap-2 items-center font-semibold ${
+                downvoted
+                  ? "text-red-500 outline-red-300 hover:bg-red-300 bg-red-200"
+                  : "text-neutral-500 outline-neutral-300 hover:bg-neutral-300 bg-neutral-200"
+              } `}
+              onClick={handleDownvote}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="13"
+                height="16"
+                viewBox="0 0 13 16"
+                fill={downvoted ? "#FF0000" : "#9E9E9E"}>
+                <path d="M4.01276 1.67984e-07L8.98725 6.02868e-07L8.98725 8.08081L13 8.08081L6.5 16L6.92318e-07 8.08081L4.01276 8.08081L4.01276 1.67984e-07Z" />
+              </svg>
+            </button>
+          </div>
+        </section>
       </div>
       <div className="w-full h-[1px] bg-neutral-200 my-4"></div>
     </>

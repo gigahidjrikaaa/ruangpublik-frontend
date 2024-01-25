@@ -25,46 +25,61 @@ export default function TersimpanPage() {
   const [bookmarkedThreads, setBookmarkedThreads] = useState<Thread[]>([]);
 
   useEffect(() => {
-    const loading = toast.loading("Loading...");
+    const loadingToast = toast.loading("Loading...");
     setLoading(true);
-    axios
-      .get(process.env.NEXT_PUBLIC_API_URL + "/threads")
-      .then((res) => {
-        toast.update(loading, {
+
+    const fetchUserData = async () => {
+      try {
+        const userResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/users`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+
+        const userId = userResponse.data.data.id;
+
+        const threadsResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/threads`
+        );
+
+        const allThreads = threadsResponse.data.data;
+
+        const bookmarked = allThreads.filter((thread: Thread) =>
+          thread.bookmarks.includes(userId)
+        );
+
+        setBookmarkedThreads(bookmarked);
+
+        toast.update(loadingToast, {
           render: "Success",
           type: "success",
           isLoading: false,
           autoClose: 3000,
         });
-
-        const allThreads = res.data.data;
-        const bookmarked = allThreads.filter(
-          (thread: { bookmarks: string | string[] }) =>
-            thread.bookmarks.includes("65a86f38e93a6e74fa9c372a") //user id
-        );
-
-        setBookmarkedThreads(bookmarked);
-      })
-      .catch((err: unknown) => {
-        if (err instanceof Error) {
-          toast.update(loading, {
-            render: err.message,
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.update(loadingToast, {
+            render: error.message,
             type: "error",
             isLoading: false,
             autoClose: 3000,
           });
         } else {
-          toast.update(loading, {
+          toast.update(loadingToast, {
             render: "Unknown error",
             type: "error",
             isLoading: false,
             autoClose: 3000,
           });
         }
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    fetchUserData();
   }, []);
 
   return (
@@ -80,10 +95,17 @@ export default function TersimpanPage() {
           bookmarkedThreads.map((thread: Thread) => (
             <Thread
               key={thread._id}
+              _id={thread._id}
               poster={thread.poster}
               title={thread.title}
               content={thread.content}
               createdAt={thread.createdAt}
+              upvotes={thread.upvotes}
+              downvotes={thread.downvotes}
+              bookmarks={thread.bookmarks}
+              replies={thread.replies}
+              parents={thread.parents}
+              __v={thread.__v}
             />
           ))}
       </Layout>
