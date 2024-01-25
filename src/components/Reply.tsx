@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import TanggalPost from "./PostDateFormat";
+import PostDateFormat from "./PostDateFormat";
 
 interface Thread {
   createdAt: string;
@@ -133,7 +135,9 @@ export default function Reply(props: Reply) {
                   <div className="size-[32px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
                   <span className="text-neutral-900">{props.poster}</span>
                   <span className="text-neutral-500 ">•</span>
-                  <span className="text-neutral-500  ">1 hour ago</span>
+                  <span className="text-neutral-500  ">
+                    {<PostDateFormat tanggalPost={props.createdAt} />}
+                  </span>
                 </div>
               </div>
 

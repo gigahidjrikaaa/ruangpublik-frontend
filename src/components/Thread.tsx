@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Reply from "./Reply";
 import { toast } from "react-toastify";
+import PostDateFormat from "./PostDateFormat";
 
 interface Thread {
   createdAt: string;
@@ -160,7 +161,9 @@ export default function Thread(props: Thread) {
               <h1 className="text-[14px] md:text-[16px] font-semibold tracking-[-0.32px] leading-[100%]">
                 {props.poster}
               </h1>
-              <h2 className="text-[12px]">{props.createdAt}</h2>
+              <h2 className="text-[14px] mt-[2px] text-neutral-500">
+                {<PostDateFormat tanggalPost={props.createdAt} />}
+              </h2>
             </div>
             <div className="rounded-full w-max flex-shrink-0 bg-success-100 text-[12px] text-success-700 px-3 py-1">
               Akun Resmi
@@ -234,7 +237,16 @@ export default function Thread(props: Thread) {
             </button>
             <button
               className={`px-5 py-1 sm:py-2 outline outline-1 outline-neutral-300 bg-neutral-200 rounded-full flex gap-2 items-center font-semibold s"text-neutral-500"
-      } hover:bg-neutral-300 text-neutral-500`}>
+      } hover:bg-neutral-300 text-neutral-500`}
+              onClick={() => {
+                setShowReply(true);
+                const currentPosition = window.scrollY;
+                const newPosition = currentPosition + 200;
+                window.scrollTo({
+                  top: newPosition,
+                  behavior: "smooth",
+                });
+              }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="17"
