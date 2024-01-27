@@ -122,21 +122,21 @@ export default function Navbar() {
 
   const parseNotificationMessage = (type: string) => {
     switch (type) {
-      case "reply":
-        return "membalas thread kamu";
-      case "upvote":
-        return "menyukai thread kamu";
-      case "downvote":
-        return "tidak menyukai thread kamu";
-      case "broadcast":
-        return "memposting thread baru";
-      default:
-        return "";
+    case "reply":
+      return "membalas thread kamu";
+    case "upvote":
+      return "menyukai thread kamu";
+    case "downvote":
+      return "tidak menyukai thread kamu";
+    case "broadcast":
+      return "memposting thread baru";
+    default:
+      return "";
     }
   };
 
   return (
-    <nav className="bg-white p-[14px] flex justify-between items-center fixed top-0 w-screen z-[10] shadow-md">
+    <nav className="bg-white p-[14px] flex justify-between items-center fixed top-0 w-screen z-[90] shadow-md">
       <Link href="/">
         <Image src={Logo} alt="Logo Ruang Publik" className="w-[90px] lg:w-[105px]" />
       </Link>
