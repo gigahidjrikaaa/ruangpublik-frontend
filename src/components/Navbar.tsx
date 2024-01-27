@@ -1,8 +1,12 @@
-import Image from "next/image";
 import Logo from "@/../public/Logo.png";
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
+import Account from "@/../public/svgs/account.svg";
+import axios from "axios";
+import { MdNotifications } from "react-icons/md";
 
 interface MenuLinkProps {
   label: string;
@@ -11,6 +15,20 @@ interface MenuLinkProps {
   iconActive: JSX.Element;
   icon: JSX.Element;
 }
+
+interface Profile {
+  id: string;
+  username: string;
+  email: string;
+}
+
+interface Notification {
+  type: string;
+  sender: {
+    username: string;
+  };
+}
+
 const MenuLink = (props: MenuLinkProps) => {
   const active = props.path === props.active;
   return (
@@ -30,10 +48,15 @@ const MenuLink = (props: MenuLinkProps) => {
 };
 
 export default function Navbar() {
+  const router = useRouter();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activePage, setActivePage] = useState("/");
   const [isLogged, setIsLogged] = useState(false);
-  const router = useRouter();
+  const [profile, setProfile] = useState<Profile>();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showNotif, setShowNotif] = useState(false);
 
   const LogoutHandler = () => {
     localStorage.removeItem("access_token");
@@ -50,17 +73,72 @@ export default function Navbar() {
   useEffect(() => {
     checkLogin();
     setActivePage(router.pathname);
-    console.log(router.pathname == "/terbaru");
   }, [router.pathname]);
+
+  const isInHomepage = router.pathname === "/";
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
+        setProfile(response.data.data);
+      } catch (error) {
+        console.error("Error fetching thread data", error);
+      }
+    };
+
+    const fetchNotification = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/notification`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
+        setNotifications(response.data.data);
+      } catch (error) {
+        console.error("Error fetching thread data", error);
+      }
+    };
+
+    if (isLogged) {
+      fetchUser();
+      fetchNotification();
+    }
+  }, [isLogged]);
+
+  const openNotification = () => {
+    setShowNotif((prev) => !prev);
+    setShowProfile(false);
+  };
+
+  const openProfile = () => {
+    setShowProfile((prev) => !prev);
+    setShowNotif(false);
+  };
+
+  const parseNotificationMessage = (type: string) => {
+    switch (type) {
+      case "reply":
+        return "membalas thread kamu";
+      case "upvote":
+        return "menyukai thread kamu";
+      case "downvote":
+        return "tidak menyukai thread kamu";
+      case "broadcast":
+        return "memposting thread baru";
+      default:
+        return "";
+    }
+  };
 
   return (
     <nav className="bg-white p-[14px] flex justify-between items-center fixed top-0 w-screen z-[10] shadow-md">
       <Link href="/">
-        <Image
-          src={Logo}
-          alt="Logo Ruang Publik"
-          className="w-[90px] lg:w-[105px]"
-        />
+        <Image src={Logo} alt="Logo Ruang Publik" className="w-[90px] lg:w-[105px]" />
       </Link>
 
       <form className="relative hidden md:block">
@@ -96,24 +174,80 @@ export default function Navbar() {
 
       {/* if isLoggedin, then don't show login button */}
       {isLogged ? (
-        <div className="hidden md:block">
-          <Link href="/forum">
-            <button className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white mr-4">
-              Forum
+        isInHomepage ? (
+          <div className="hidden md:flex">
+            <Link href="/forum">
+              <button className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white mr-4">
+                Forum
+              </button>
+            </Link>
+            <button
+              className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white"
+              onClick={LogoutHandler}
+            >
+              Logout
             </button>
-          </Link>
-          <button className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white" onClick={LogoutHandler}>
-            Logout
-          </button>
-        </div>
+          </div>
+        ) : (
+          <div className="relative hidden md:flex md:items-center md:gap-x-3 md:pr-2 ">
+            <div className="relative">
+              <div
+                onClick={openNotification}
+                className="rounded-full border border-neutral-300 p-[11px] cursor-pointer"
+              >
+                <div className="relative">
+                  <div className="absolute -right-[10px] -top-1 rounded-full p-1 bg-blue-500"></div>
+                </div>
+                <MdNotifications size="1.65rem" />
+              </div>
+              {showNotif && (
+                <div className="absolute min-w-[180px] top-14 right-1 bg-white rounded-lg border text-xs">
+                  {notifications.length > 0 ? (
+                    notifications.map((notification) => (
+                      <div className="border-b last:border-none py-2 px-2 w-[300px] text-[14px]">
+                        <span className="font-bold">{notification.sender.username}</span>&nbsp;
+                        <span>{parseNotificationMessage(notification.type)}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-base">Tidak ada notifikasi</p>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="relative">
+              <div
+                onClick={openProfile}
+                className="rounded-full border border-neutral-300 p-3 cursor-pointer"
+              >
+                <Image src={Account} width={24} height={24} alt="profile account" />
+              </div>
+              {showProfile && (
+                <div className="absolute min-w-[180px] top-14 right-2 bg-white rounded-lg border px-3 py-2 text-xs font-bold">
+                  <p className="text-base">{profile?.username}</p>
+                  <p className="text-neutral-400">{profile?.email}</p>
+                  <hr className="my-2" />
+                  <div className="flex flex-col gap-y-2">
+                    <a href="">Pengaturan akun</a>
+                    <a href="">Keamanan akun</a>
+                  </div>
+                  <hr className="my-2" />
+                  <a href="" className="text-red-600" onClick={LogoutHandler}>
+                    Logout
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        )
       ) : (
         <Link href="/login">
           <button className="hidden md:block rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white">
-              Login
+            Login
           </button>
         </Link>
-      )
-      }
+      )}
 
       {/* <Link href="/login">
         <button className="hidden md:block rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white">
@@ -157,8 +291,18 @@ export default function Navbar() {
             path="/"
             active={activePage}
             icon={
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M10.0427 3.15015L10.0431 3.14984C11.1273 2.27903 12.8675 2.28412 13.968 3.16072C13.9681 3.16082 13.9682 3.16093 13.9684 3.16103L20.514 8.39754C20.5146 8.39801 20.5152 8.39847 20.5157 8.39893C20.893 8.7071 21.2196 9.18941 21.4304 9.74097C21.641 10.2922 21.7196 10.8699 21.6462 11.3509L20.3873 18.8845C20.3872 18.8849 20.3872 18.8854 20.3871 18.8859C20.1374 20.3188 18.7432 21.5 17.3 21.5H6.69996C5.23549 21.5 3.8725 20.3476 3.62294 18.8965C3.62288 18.8961 3.62282 18.8958 3.62276 18.8954L2.36313 11.3576L2.36293 11.3564C2.28079 10.8718 2.35452 10.2929 2.56465 9.74191C2.77476 9.19093 3.10548 8.70908 3.4918 8.40084L3.49267 8.40015L10.0427 3.15015ZM12 19.25C12.6861 19.25 13.25 18.6861 13.25 18V15C13.25 14.3139 12.6861 13.75 12 13.75C11.3138 13.75 10.75 14.3139 10.75 15V18C10.75 18.6861 11.3138 19.25 12 19.25Z" fill="#9E9E9E" stroke="#9E9E9E"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M10.0427 3.15015L10.0431 3.14984C11.1273 2.27903 12.8675 2.28412 13.968 3.16072C13.9681 3.16082 13.9682 3.16093 13.9684 3.16103L20.514 8.39754C20.5146 8.39801 20.5152 8.39847 20.5157 8.39893C20.893 8.7071 21.2196 9.18941 21.4304 9.74097C21.641 10.2922 21.7196 10.8699 21.6462 11.3509L20.3873 18.8845C20.3872 18.8849 20.3872 18.8854 20.3871 18.8859C20.1374 20.3188 18.7432 21.5 17.3 21.5H6.69996C5.23549 21.5 3.8725 20.3476 3.62294 18.8965C3.62288 18.8961 3.62282 18.8958 3.62276 18.8954L2.36313 11.3576L2.36293 11.3564C2.28079 10.8718 2.35452 10.2929 2.56465 9.74191C2.77476 9.19093 3.10548 8.70908 3.4918 8.40084L3.49267 8.40015L10.0427 3.15015ZM12 19.25C12.6861 19.25 13.25 18.6861 13.25 18V15C13.25 14.3139 12.6861 13.75 12 13.75C11.3138 13.75 10.75 14.3139 10.75 15V18C10.75 18.6861 11.3138 19.25 12 19.25Z"
+                  fill="#9E9E9E"
+                  stroke="#9E9E9E"
+                />
               </svg>
             }
             iconActive={
@@ -246,18 +390,20 @@ export default function Navbar() {
                 />
               </svg>
             }
-            iconActive={<svg
-              fill="#3563E9"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M7 18C6.71667 18 6.47933 17.904 6.288 17.712C6.09667 17.52 6.00067 17.2827 6 17V15H19V6H21C21.2833 6 21.521 6.096 21.713 6.288C21.905 6.48 22.0007 6.71733 22 7V19.575C22 20.025 21.796 20.3377 21.388 20.513C20.98 20.6883 20.6173 20.6173 20.3 20.3L18 18H7ZM6 13L3.7 15.3C3.38334 15.6167 3.02067 15.6877 2.612 15.513C2.20333 15.3383 1.99933 15.0257 2 14.575V3C2 2.71667 2.096 2.47933 2.288 2.288C2.48 2.09667 2.71733 2.00067 3 2H16C16.2833 2 16.521 2.096 16.713 2.288C16.905 2.48 17.0007 2.71733 17 3V12C17 12.2833 16.904 12.521 16.712 12.713C16.52 12.905 16.2827 13.0007 16 13H6Z"
+            iconActive={
+              <svg
                 fill="#3563E9"
-              />
-            </svg>}
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 18C6.71667 18 6.47933 17.904 6.288 17.712C6.09667 17.52 6.00067 17.2827 6 17V15H19V6H21C21.2833 6 21.521 6.096 21.713 6.288C21.905 6.48 22.0007 6.71733 22 7V19.575C22 20.025 21.796 20.3377 21.388 20.513C20.98 20.6883 20.6173 20.6173 20.3 20.3L18 18H7ZM6 13L3.7 15.3C3.38334 15.6167 3.02067 15.6877 2.612 15.513C2.20333 15.3383 1.99933 15.0257 2 14.575V3C2 2.71667 2.096 2.47933 2.288 2.288C2.48 2.09667 2.71733 2.00067 3 2H16C16.2833 2 16.521 2.096 16.713 2.288C16.905 2.48 17.0007 2.71733 17 3V12C17 12.2833 16.904 12.521 16.712 12.713C16.52 12.905 16.2827 13.0007 16 13H6Z"
+                  fill="#3563E9"
+                />
+              </svg>
+            }
           />
         </ul>
         {/* <ul>

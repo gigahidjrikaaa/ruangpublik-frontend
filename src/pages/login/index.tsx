@@ -129,7 +129,7 @@ export default function LoginPage() {
         </div>
         <div className="bg-neutral-100 p-3 rounded-lg cursor-pointer">
           <a href="http://localhost:5000/auth/google" className="text-secondary-800">
-            <FcGoogle size="3.75rem" />
+            <FcGoogle size="1.75rem" />
           </a>
         </div>
         {/* <GoogleLoginButton /> */}
