@@ -1,10 +1,10 @@
 export default function Intro() {
   return (
-    <main id="intro" className="min-h-screen bg-neutral-200 text-black">
-      <section className="flex flex-col justify-center items-center md:flex-row h-[70vh] max-h-[800px] 2xl:max-h-none relative">
-        <div className="w-full lg:w-[45%] h-full flex-shrink-0 bg-[url(/Intro1.jpg)] bg-cover bg-center overflow-hidden relative" />
-        <div className="w-full flex flex-col justify-center items-center absolute bottom-10 lg:bottom-auto lg:relative">
-          <div className="max-w-[545px] xl:max-w-[610px] 2xl:max-w-[800px] py-2 px-[5%] md:px-10 bg-white lg:bg-transparent">
+    <main id="intro" className="min-h-screen bg-neutral-200 text-black py-10">
+      <section className="mb-6 flex flex-col gap-3 lg:gap-0 justify-start lg:justify-center items-center lg:flex-row lg:h-[70vh] relative w-screen aspect-square">
+        <div className="w-[80%] md:w-[70%] lg:w-[45%] h-[90%] flex-shrink-0 bg-[url(/Intro1.jpg)] bg-cover bg-center overflow-hidden relative self-start rounded-r-[16px]" />
+        <div className="w-full flex flex-col justify-center items-center relative">
+          <div className="max-w-[545px] xl:max-w-[610px] 2xl:max-w-[800px] py-2 px-[5%] md:px-10">
             <h1 className="text-[28px] md:text-[32px] xl:text-[40px] 2xl:text-[45px] font-bold tracking-[-0.64px] leading-[105%]">
               Jangan biarkan suaramu terpendam.
             </h1>
@@ -16,9 +16,9 @@ export default function Intro() {
         </div>
       </section>
 
-      <section className="flex flex-col justify-center items-center md:flex-row h-[70vh] max-h-[800px] 2xl:max-h-none relative">
-        <div className="w-full flex flex-col justify-center items-center absolute bottom-10 lg:bottom-auto lg:relative">
-          <div className="max-w-[545px] xl:max-w-[610px] 2xl:max-w-[800px] py-2 px-[5%] md:px-10 bg-white lg:bg-transparent z-[1]">
+      <section className="flex flex-col-reverse gap-3 lg:gap-0 justify-center items-center lg:flex-row lg:h-[70vh] relative">
+        <div className="w-full flex flex-col justify-center items-center bottom-10 lg:bottom-auto">
+          <div className="max-w-[545px] xl:max-w-[610px] 2xl:max-w-[800px] py-2 px-[5%] md:px-10 z-[1]">
             <h1 className="text-[28px] md:text-[32px] xl:text-[40px] 2xl:text-[45px] font-bold tracking-[-0.64px] leading-[105%]">
               Temukan sudut pandang baru.
             </h1>
@@ -28,7 +28,7 @@ export default function Intro() {
             </p>
           </div>
         </div>
-        <div className="w-full lg:w-[45%] h-full flex-shrink-0 bg-[url(/Intro2.jpg)] bg-cover bg-center overflow-hidden relative" />
+        <div className="w-[80%] lg:w-[45%] h-full flex-shrink-0 bg-[url(/Intro2.jpg)] bg-cover bg-center overflow-hidden relative self-end rounded-l-[16px] aspect-square" />
       </section>
     </main>
   );
