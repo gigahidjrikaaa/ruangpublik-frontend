@@ -15,7 +15,7 @@ export default function Footer() {
             />
           </Link>
           <p className="text-[14px] mb-4 text-center">
-            Suara Rakyat adalah sebuah platform yang memungkinkan kamu untuk <br />
+            Ruang Publik adalah sebuah platform yang memungkinkan kamu untuk <br />
             berbagi pendapat dan menyalurkan aspirasi.
           </p>
         </div>
