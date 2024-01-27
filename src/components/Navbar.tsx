@@ -229,7 +229,7 @@ export default function Navbar() {
                   <p className="text-neutral-400">{profile?.email}</p>
                   <hr className="my-2" />
                   <div className="flex flex-col gap-y-2">
-                    <a href="">Pengaturan akun</a>
+                    <a href="/profile">Pengaturan akun</a>
                     <a href="">Keamanan akun</a>
                   </div>
                   <hr className="my-2" />
